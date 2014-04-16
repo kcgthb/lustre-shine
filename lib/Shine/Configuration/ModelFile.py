@@ -149,6 +149,11 @@ class SimpleElement(object):
         if self._check == 'digit':
             try:
                 retval = int(value)
+                # digits could be hex, convert them in decimal
+                if type(value) != int and value.startswith('0x'):
+                    retval = int(value, base=16)
+                else:
+                    retval = int(value)
             except ValueError, error:
                 raise ModelFileValueError(str(error))
             return retval
